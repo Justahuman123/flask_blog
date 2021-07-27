@@ -28,7 +28,7 @@ def Add_content(tit, con, i):  # 添加博客的内容
     app.db.session.commit()
 
 
-def find_title(i):  # 获取用户博客的标题
+def find_title(i):  # 根据用户id获取用户博客的标题
     t = app.User.query.get(i)
     list_title = []
     for i in t.contents:
@@ -36,7 +36,7 @@ def find_title(i):  # 获取用户博客的标题
     return list_title
 
 
-def find_content(i):  # 获取用户微博内容
+def find_content(i):  # 根据用户id 获取用户微博的内容
     c = app.User.query.get(i)
     list_content = []
     for i in c.contents:
@@ -44,10 +44,40 @@ def find_content(i):  # 获取用户微博内容
     return list_content
 
 
-def find_blog_id(i):  # 获取用户微博id
+def find_blog_id(i):  # 根据用户id获取用户微博的id
     c = app.User.query.get(i)
     list_id = []
     for i in c.contents:
         list_id.append(i.id)
     return list_id
 
+
+def find_blog_all(i):  # 根据文章id获取文章的全部内容
+    c = app.Content.query.get(i)
+    return c
+
+
+def chang_blog_all(i, tit, con):
+    app.Content.query.filter(app.Content.id == i).update({"title": tit, "content_information": con})
+    app.db.session.commit()
+
+
+def del_blog(i):
+    app.Content.query.filter(app.Content.id == i).delete()
+    app.db.session.commit()
+
+
+def show_all_blog():
+    c = app.Content.query.all()
+    list_id = []
+    list_title = []
+    for i in c:
+        list_id.append(i.id)
+        list_title.append(i.title)
+    b = dict(zip(list_id, list_title))
+    return b
+
+
+def find_writer(i):
+    c = app.Content.query.filter(app.Content.id == i).first()
+    return c.user_id

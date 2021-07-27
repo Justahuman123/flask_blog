@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>blog</title>
+</head>
+<body>
+<a href="/show_title">个人中心</a><br>
+<a href="/write_content">新增</a><br>
+{% for i in blog %}
+    <a name="title" href="/base_show/{{ i }}">{{ blog[i] }}</a><br>
+{% endfor %}
+<a href="/logout">logout</a>
+</body>
+</html>
